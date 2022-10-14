@@ -10,6 +10,11 @@ public class PlayerMovements : MonoBehaviour
     private BoxCollider2D boxCollider;
     float horizontalMoveInput;
 
+    public Transform groundCheck;
+    public float groundCheckRadius;
+    public LayerMask groundLayer;
+    private bool isTouchingGround;
+
     // Start is called before the first frame update
 
     void Awake()
@@ -26,6 +31,7 @@ public class PlayerMovements : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         horizontalMoveInput = Input.GetAxis("Horizontal");
         
         if (horizontalMoveInput > 0.01f)
@@ -35,8 +41,8 @@ public class PlayerMovements : MonoBehaviour
         
         body.velocity = new Vector2(horizontalMoveInput * speed, body.velocity.y);
 
-        if(Input.GetKey(KeyCode.Space))
-                Jump();
+        if(Input.GetKey(KeyCode.Space) && isTouchingGround)
+            Jump();
     }
 
     void Jump()
