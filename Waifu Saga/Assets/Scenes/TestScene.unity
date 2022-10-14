@@ -220,7 +220,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81171bea7a3ffcd788faedadfad99bd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followSpeed: 2
+  followSpeed: 4
+  yOffset: 2
   target: {fileID: 1536960663}
 --- !u!1 &577350829
 GameObject:
@@ -403,10 +404,11 @@ MonoBehaviour:
   speed: 5
   jumpPower: 10
   groundCheck: {fileID: 577350830}
-  groundCheckRadius: 0.2
+  groundCheckRadius: 0.05
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  extraJumps: 2
 --- !u!1 &1567308553
 GameObject:
   m_ObjectHideFlags: 0
