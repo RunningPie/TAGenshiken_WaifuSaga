@@ -41,7 +41,7 @@ public class PlayerMovements : MonoBehaviour
         
         body.velocity = new Vector2(horizontalMoveInput * speed, body.velocity.y);
 
-        if(Input.GetKey(KeyCode.Space) && isTouchingGround)
+        if(Input.GetButtonDown("Jump") && isTouchingGround)
             Jump();
     }
 
