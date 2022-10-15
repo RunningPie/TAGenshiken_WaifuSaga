@@ -318,7 +318,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 3
+  m_GravityScale: 8
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -405,15 +405,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 7.5
-  jumpPower: 10
-  extraJumps: 2
+  jumpPower: 20
+  extraJumps: 1
   groundCheck: {fileID: 577350830}
   groundCheckRadius: 0.05
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  dashSpeed: 0
-  dashTime: 0
+  dashSpeed: 20
+  dashTime: 0.2
 --- !u!96 &1536960665
 TrailRenderer:
   serializedVersion: 2
