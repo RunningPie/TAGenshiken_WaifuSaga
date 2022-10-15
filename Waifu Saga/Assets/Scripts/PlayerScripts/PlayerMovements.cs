@@ -49,12 +49,10 @@ public class PlayerMovements : MonoBehaviour
 
         //Jumping
         isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-
         if (isTouchingGround) // Reset jump counter every time player lands
         {
             jumpCounter = extraJumps;
         }
-
         if(Input.GetButtonDown("Jump")) // Check jump input
         {
             if(isTouchingGround) // Check if player is on the ground
@@ -74,27 +72,27 @@ public class PlayerMovements : MonoBehaviour
 
         // Dashing
         dashInput = Input.GetButtonDown("Dash");
-        if (dashInput && canDash)
+        if (dashInput && canDash) // If can dash with input
         {
             isDashing = true;
             canDash = false;
             dashDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            if (dashDirection == Vector2.zero)
+            if (dashDirection == Vector2.zero) // If no input
             {
                 dashDirection = new Vector2(transform.localScale.x, 0f);
             }
             StartCoroutine(stopDash());
         }
-        if (isDashing)
+        if (isDashing) // Dashing
         {
             body.velocity = dashDirection.normalized * dashSpeed;
             return;
         }
-        if (isTouchingGround)
+        if (isTouchingGround) // Reset canDash if on the ground
         {
             canDash = true;
         }
-        IEnumerator stopDash()
+        IEnumerator stopDash() //Coroutine to time the dash
         {
             yield return new WaitForSeconds(dashTime);
             isDashing = false;
