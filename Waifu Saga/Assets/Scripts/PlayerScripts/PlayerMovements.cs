@@ -36,7 +36,6 @@ public class PlayerMovements : MonoBehaviour
         {
             transform.localScale = new Vector2(-5, 5);
         }
-        
         body.velocity = new Vector2(horizontalMoveInput * speed, body.velocity.y);
 
         //Jumping
