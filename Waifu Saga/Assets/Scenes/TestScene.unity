@@ -406,12 +406,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 7.5
   jumpPower: 10
+  extraJumps: 2
   groundCheck: {fileID: 577350830}
   groundCheckRadius: 0.05
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  extraJumps: 2
+  dashSpeed: 0
+  dashTime: 0
 --- !u!96 &1536960665
 TrailRenderer:
   serializedVersion: 2
