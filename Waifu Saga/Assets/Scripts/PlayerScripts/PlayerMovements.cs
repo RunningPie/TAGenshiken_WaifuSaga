@@ -12,17 +12,21 @@ public class PlayerMovements : MonoBehaviour
     private Rigidbody2D body;
     private BoxCollider2D boxCollider;
     private float horizontalMoveInput;
+
     [Header("Ground Check")]
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask groundLayer;
     private bool isTouchingGround;
+
     [Header("Dashing")]
     public float dashSpeed;
     public float dashTime;
+    public float dashCooldown;
     private Vector2 dashDirection;
     private bool isDashing;
     private bool canDash = true;
+    private bool dashReady = true;
     private bool dashInput;
 
     // Start is called before the first frame update
@@ -45,6 +49,7 @@ public class PlayerMovements : MonoBehaviour
             transform.localScale = new Vector2(-5, 5);
         }
         body.velocity = new Vector2(horizontalMoveInput * speed, body.velocity.y);
+
 
 
         //Jumping
@@ -70,12 +75,14 @@ public class PlayerMovements : MonoBehaviour
         }    
 
 
+
         // Dashing
         dashInput = Input.GetButtonDown("Dash");
-        if (dashInput && canDash) // If can dash with input
+        if (dashInput && canDash && dashReady) // If can dash with input
         {
             isDashing = true;
             canDash = false;
+            dashReady = false;
             dashDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             if (dashDirection == Vector2.zero) // If no input
             {
@@ -88,15 +95,27 @@ public class PlayerMovements : MonoBehaviour
             body.velocity = dashDirection.normalized * dashSpeed;
             return;
         }
-        if (isTouchingGround) // Reset canDash if on the ground
+        if (canDash == false) // Reset canDash if on the ground
         {
-            canDash = true;
+            if (isTouchingGround)
+            {
+                canDash = true;
+                StartCoroutine(dashOnCooldown());
+            }
         }
         IEnumerator stopDash() //Coroutine to time the dash
         {
             yield return new WaitForSeconds(dashTime);
             isDashing = false;
         }
+        IEnumerator dashOnCooldown() //Coroutine to dash cooldown
+        {
+            yield return new WaitForSeconds(dashCooldown);
+            dashReady = true;
+        }
+
+
+
     }
 
     void Jump()
