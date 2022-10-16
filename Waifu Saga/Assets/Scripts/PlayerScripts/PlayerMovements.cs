@@ -4,26 +4,42 @@ using UnityEngine;
 
 public class PlayerMovements : MonoBehaviour
 {
+    private Rigidbody2D body;
+    private BoxCollider2D boxCollider;
+
     [Header("Basic Movements")]
     public float speed;
     public float jumpPower;
     public int extraJumps;
-    private int jumpCounter;
-    private Rigidbody2D body;
-    private BoxCollider2D boxCollider;
+    public int jumpCounter;
     private float horizontalMoveInput;
+
     [Header("Ground Check")]
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask groundLayer;
-    private bool isTouchingGround;
+    public bool isTouchingGround;
+
     [Header("Dashing")]
     public float dashSpeed;
     public float dashTime;
+    public float dashCooldown;
+    public float airTimeDivider;
     private Vector2 dashDirection;
-    private bool isDashing;
-    private bool canDash = true;
+    public bool isDashing;
+    public bool canDash = true;
+    public bool dashReady = true;
     private bool dashInput;
+
+    [Header("Wall Jump")]
+    public Transform wallCheck;
+    public float wallSlideSpeed;
+    public bool isWallTouch;
+    public bool isWallSlide;
+    public float wallJumpTime;
+    public Vector2 wallJumpPower;
+    private bool isWallJumping;
+    
 
     // Start is called before the first frame update
     void Awake()
@@ -47,19 +63,24 @@ public class PlayerMovements : MonoBehaviour
         body.velocity = new Vector2(horizontalMoveInput * speed, body.velocity.y);
 
 
+
         //Jumping
         isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-
         if (isTouchingGround) // Reset jump counter every time player lands
         {
             jumpCounter = extraJumps;
         }
-
         if(Input.GetButtonDown("Jump")) // Check jump input
         {
             if(isTouchingGround) // Check if player is on the ground
             {
                 Jump();
+            }
+            else if(isWallSlide)
+            {
+                isWallJumping = true;
+                jumpCounter--;
+                StartCoroutine(stopWallJump());
             }
             else
             {
@@ -69,40 +90,79 @@ public class PlayerMovements : MonoBehaviour
                     jumpCounter--;
                 }
             }
-        }    
+        }   
+        void Jump()
+        {
+            body.velocity = new Vector2(body.velocity.x, jumpPower);
+        } 
+
 
 
         // Dashing
         dashInput = Input.GetButtonDown("Dash");
-        if (dashInput && canDash)
+        if (dashInput && canDash && dashReady) // If can dash with input
         {
             isDashing = true;
             canDash = false;
-            dashDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            if (dashDirection == Vector2.zero)
+            dashReady = false;
+            dashDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
+            if (dashDirection == Vector2.zero) // If no input
             {
                 dashDirection = new Vector2(transform.localScale.x, 0f);
             }
             StartCoroutine(stopDash());
         }
-        if (isDashing)
+        if (isDashing) // Dashing
         {
-            body.velocity = dashDirection.normalized * dashSpeed;
+            body.velocity = dashDirection * dashSpeed;
             return;
         }
         if (isTouchingGround)
         {
             canDash = true;
         }
-        IEnumerator stopDash()
+        IEnumerator dashOnCooldown() //Coroutine to dash cooldown
+        {
+            yield return new WaitForSeconds(dashCooldown);
+            dashReady = true;
+        }
+        IEnumerator stopDash() //Coroutine to time the dash
         {
             yield return new WaitForSeconds(dashTime);
             isDashing = false;
+            body.velocity = body.velocity / airTimeDivider;
+            StartCoroutine(dashOnCooldown());
         }
-    }
 
-    void Jump()
-    {
-        body.velocity = new Vector2(body.velocity.x, jumpPower);
+
+
+        // Wall slide and jump
+        isWallTouch = Physics2D.OverlapBox(wallCheck.position, new Vector2(0.02f, 0.25f), 0, groundLayer);
+        if(isWallTouch && !isTouchingGround)
+        {
+            isWallSlide = true;
+        }
+        else
+        {
+            isWallSlide = false;
+        }
+        if(isWallSlide)
+        {
+            body.velocity = new Vector2(body.velocity.x, Mathf.Clamp(body.velocity.y, -(wallSlideSpeed), float.MaxValue));
+            jumpCounter = extraJumps;
+        }
+        if(isWallJumping)
+        {
+            body.velocity = new Vector2(-horizontalMoveInput * wallJumpPower.x, wallJumpPower.y);
+        }
+        else
+        {
+            body.velocity = new Vector2(horizontalMoveInput * speed, body.velocity.y);
+        }
+        IEnumerator stopWallJump()
+        {
+            yield return new WaitForSeconds(wallJumpTime);
+            isWallJumping = false;
+        }
     }
 }
