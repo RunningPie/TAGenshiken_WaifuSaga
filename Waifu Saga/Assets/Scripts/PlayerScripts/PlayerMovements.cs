@@ -36,6 +36,9 @@ public class PlayerMovements : MonoBehaviour
     public float wallSlideSpeed;
     public bool isWallTouch;
     public bool isWallSlide;
+    public float wallJumpTime;
+    public Vector2 wallJumpPower;
+    private bool isWallJumping;
     
 
     // Start is called before the first frame update
@@ -73,6 +76,12 @@ public class PlayerMovements : MonoBehaviour
             {
                 Jump();
             }
+            else if(isWallSlide)
+            {
+                isWallJumping = true;
+                jumpCounter--;
+                StartCoroutine(stopWallJump());
+            }
             else
             {
                 if (jumpCounter > 0) // Check if jump counter above zero
@@ -81,7 +90,11 @@ public class PlayerMovements : MonoBehaviour
                     jumpCounter--;
                 }
             }
-        }    
+        }   
+        void Jump()
+        {
+            body.velocity = new Vector2(body.velocity.x, jumpPower);
+        } 
 
 
 
@@ -136,11 +149,20 @@ public class PlayerMovements : MonoBehaviour
         if(isWallSlide)
         {
             body.velocity = new Vector2(body.velocity.x, Mathf.Clamp(body.velocity.y, -(wallSlideSpeed), float.MaxValue));
+            jumpCounter = extraJumps;
         }
-    }
-
-    void Jump()
-    {
-        body.velocity = new Vector2(body.velocity.x, jumpPower);
+        if(isWallJumping)
+        {
+            body.velocity = new Vector2(-horizontalMoveInput * wallJumpPower.x, wallJumpPower.y);
+        }
+        else
+        {
+            body.velocity = new Vector2(horizontalMoveInput * speed, body.velocity.y);
+        }
+        IEnumerator stopWallJump()
+        {
+            yield return new WaitForSeconds(wallJumpTime);
+            isWallJumping = false;
+        }
     }
 }
