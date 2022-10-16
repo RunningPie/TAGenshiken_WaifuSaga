@@ -4,30 +4,39 @@ using UnityEngine;
 
 public class PlayerMovements : MonoBehaviour
 {
+    private Rigidbody2D body;
+    private BoxCollider2D boxCollider;
+
     [Header("Basic Movements")]
     public float speed;
     public float jumpPower;
     public int extraJumps;
-    private int jumpCounter;
-    private Rigidbody2D body;
-    private BoxCollider2D boxCollider;
+    public int jumpCounter;
     private float horizontalMoveInput;
 
     [Header("Ground Check")]
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask groundLayer;
-    private bool isTouchingGround;
+    public bool isTouchingGround;
 
     [Header("Dashing")]
     public float dashSpeed;
     public float dashTime;
     public float dashCooldown;
+    public float airTimeDivider;
     private Vector2 dashDirection;
-    private bool isDashing;
-    private bool canDash = true;
-    private bool dashReady = true;
+    public bool isDashing;
+    public bool canDash = true;
+    public bool dashReady = true;
     private bool dashInput;
+
+    [Header("Wall Jump")]
+    public Transform wallCheck;
+    public float wallSlideSpeed;
+    public bool isWallTouch;
+    public bool isWallSlide;
+    
 
     // Start is called before the first frame update
     void Awake()
@@ -83,7 +92,7 @@ public class PlayerMovements : MonoBehaviour
             isDashing = true;
             canDash = false;
             dashReady = false;
-            dashDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            dashDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
             if (dashDirection == Vector2.zero) // If no input
             {
                 dashDirection = new Vector2(transform.localScale.x, 0f);
@@ -92,30 +101,42 @@ public class PlayerMovements : MonoBehaviour
         }
         if (isDashing) // Dashing
         {
-            body.velocity = dashDirection.normalized * dashSpeed;
+            body.velocity = dashDirection * dashSpeed;
             return;
         }
-        if (canDash == false) // Reset canDash if on the ground
+        if (isTouchingGround)
         {
-            if (isTouchingGround)
-            {
-                canDash = true;
-                StartCoroutine(dashOnCooldown());
-            }
-        }
-        IEnumerator stopDash() //Coroutine to time the dash
-        {
-            yield return new WaitForSeconds(dashTime);
-            isDashing = false;
+            canDash = true;
         }
         IEnumerator dashOnCooldown() //Coroutine to dash cooldown
         {
             yield return new WaitForSeconds(dashCooldown);
             dashReady = true;
         }
+        IEnumerator stopDash() //Coroutine to time the dash
+        {
+            yield return new WaitForSeconds(dashTime);
+            isDashing = false;
+            body.velocity = body.velocity / airTimeDivider;
+            StartCoroutine(dashOnCooldown());
+        }
 
 
 
+        // Wall slide and jump
+        isWallTouch = Physics2D.OverlapBox(wallCheck.position, new Vector2(0.02f, 0.25f), 0, groundLayer);
+        if(isWallTouch && !isTouchingGround)
+        {
+            isWallSlide = true;
+        }
+        else
+        {
+            isWallSlide = false;
+        }
+        if(isWallSlide)
+        {
+            body.velocity = new Vector2(body.velocity.x, Mathf.Clamp(body.velocity.y, -(wallSlideSpeed), float.MaxValue));
+        }
     }
 
     void Jump()
