@@ -74,10 +74,12 @@ public class PlayerMovements : MonoBehaviour
         {
             if(isTouchingGround) // Check if player is on the ground
             {
+                // Jump animation
                 Jump();
             }
             else if(isWallSlide)
             {
+                // Wall jump animation
                 isWallJumping = true;
                 jumpCounter--;
                 StartCoroutine(stopWallJump());
@@ -102,6 +104,7 @@ public class PlayerMovements : MonoBehaviour
         dashInput = Input.GetButtonDown("Dash");
         if (dashInput && canDash && dashReady) // If can dash with input
         {
+            // Dash animation
             isDashing = true;
             canDash = false;
             dashReady = false;
@@ -140,10 +143,13 @@ public class PlayerMovements : MonoBehaviour
         isWallTouch = Physics2D.OverlapBox(wallCheck.position, new Vector2(0.02f, 0.25f), 0, groundLayer);
         if(isWallTouch && !isTouchingGround)
         {
+            // Wall hang idle animation
             isWallSlide = true;
+            canDash = true;
         }
         else
         {
+            // Idle animation
             isWallSlide = false;
         }
         if(isWallSlide)

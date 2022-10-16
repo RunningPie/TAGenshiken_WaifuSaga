@@ -160,7 +160,7 @@ Transform:
   - {fileID: 374805312}
   - {fileID: 1479574336}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &374805311
 GameObject:
@@ -467,7 +467,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &519420033
 MonoBehaviour:
@@ -973,8 +973,9 @@ GameObject:
   - component: {fileID: 1536960662}
   - component: {fileID: 1536960661}
   - component: {fileID: 1536960660}
-  - component: {fileID: 1536960664}
   - component: {fileID: 1536960665}
+  - component: {fileID: 1536960664}
+  - component: {fileID: 1536960666}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1095,8 +1096,9 @@ Transform:
   m_Children:
   - {fileID: 577350830}
   - {fileID: 2017473363}
+  - {fileID: 1602117557}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1536960664
 MonoBehaviour:
@@ -1132,7 +1134,7 @@ MonoBehaviour:
   isWallTouch: 0
   isWallSlide: 0
   wallJumpTime: 0.1
-  wallJumpPower: {x: 20, y: 20}
+  wallJumpPower: {x: 10, y: 20}
 --- !u!96 &1536960665
 TrailRenderer:
   serializedVersion: 2
@@ -1184,15 +1186,15 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.16426468
+        value: 0.17072599
         inSlope: 0
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
       - serializedVersion: 3
-        time: 0.9649165
+        time: 1
         value: 0
         inSlope: 0
         outSlope: 0
@@ -1241,6 +1243,24 @@ TrailRenderer:
   m_MinVertexDistance: 0.5
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &1536960666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536960659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19fba587c8d608c4eb9b4701eb3731ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hurtbox: {fileID: 0}
+  hurtboxRange: 0
+  enemy:
+    serializedVersion: 2
+    m_Bits: 0
+  damage: 0
 --- !u!1 &1567308553
 GameObject:
   m_ObjectHideFlags: 0
@@ -1351,6 +1371,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 341505148}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1602117556
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1602117557}
+  m_Layer: 0
+  m_Name: HurtBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1602117557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602117556}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.164, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1536960663}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1688429055
 GameObject:
