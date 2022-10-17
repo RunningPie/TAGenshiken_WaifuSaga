@@ -111,7 +111,7 @@ public class PlayerMovements : MonoBehaviour
             dashDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
             if (dashDirection == Vector2.zero) // If no input
             {
-                dashDirection = new Vector2(transform.localScale.x, 0f);
+                dashDirection = new Vector2(transform.localScale.x, 0f)/5f;
             }
             StartCoroutine(stopDash());
         }

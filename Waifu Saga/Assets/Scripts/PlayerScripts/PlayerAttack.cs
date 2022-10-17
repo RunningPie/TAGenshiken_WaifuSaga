@@ -10,21 +10,36 @@ public class PlayerAttack : MonoBehaviour
     public float hurtboxRange;
     public LayerMask enemy;
     public float damage;
+    public float attackSpeed;
+    [SerializeField] private bool canAttack;
 
+    void Start()
+    {
+        canAttack = true;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Attack"));
+        if(Input.GetButtonDown("Attack") && canAttack)
         {
-            attack();
+            Collider2D[] enemies = Physics2D.OverlapCircleAll(hurtbox.position, hurtboxRange, enemy);
+            foreach (Collider2D enemy in enemies)
+            {
+                Debug.Log(enemy.name + " hit");
+            }
+            canAttack = false;
+            StartCoroutine(attackCooldown());
+        }
+        IEnumerator attackCooldown()
+        {
+            yield return new WaitForSeconds(attackSpeed);
+            canAttack = true;
         }
     }
 
-    void attack()
+    void OnDrawGizmosSelected()
     {
-        // Attack animation
-        // Detect enemy
-        // Damage enemy
+        Gizmos.DrawWireSphere(hurtbox.position, hurtboxRange);
     }
 }
