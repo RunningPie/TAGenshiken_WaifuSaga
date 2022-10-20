@@ -11,14 +11,14 @@ public class PlayerMovements : MonoBehaviour
     public float speed;
     public float jumpPower;
     public int extraJumps;
-    public int jumpCounter;
+    [SerializeField] private int jumpCounter;
     private float horizontalMoveInput;
 
     [Header("Ground Check")]
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask groundLayer;
-    public bool isTouchingGround;
+    [SerializeField] private bool isTouchingGround;
 
     [Header("Dashing")]
     public float dashSpeed;
@@ -26,9 +26,9 @@ public class PlayerMovements : MonoBehaviour
     public float dashCooldown;
     public float airTimeDivider;
     private Vector2 dashDirection;
-    public bool isDashing;
-    public bool canDash = true;
-    public bool dashReady = true;
+    [SerializeField] private bool isDashing;
+    [SerializeField] private bool canDash = true;
+    [SerializeField] private bool dashReady = true;
     private bool dashInput;
 
     [Header("Wall Jump")]

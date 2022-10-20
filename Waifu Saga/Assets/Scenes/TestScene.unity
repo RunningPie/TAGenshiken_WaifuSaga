@@ -250,7 +250,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHealth: 100
   currentHealth: 0
-  enemySpeed: 0.025
+  isAlive: 0
+  enemySpeed: 0.1
   target: {fileID: 1536960663}
   moveDirection: {x: 0, y: 0}
 --- !u!50 &251497766
@@ -1411,7 +1412,7 @@ MonoBehaviour:
   enemy:
     serializedVersion: 2
     m_Bits: 128
-  damage: 10
+  damage: 20
   attackSpeed: 0.5
   canAttack: 1
 --- !u!1 &1567308553

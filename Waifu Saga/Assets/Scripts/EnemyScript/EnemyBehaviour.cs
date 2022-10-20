@@ -9,6 +9,7 @@ public class EnemyBehaviour : MonoBehaviour
     [Header("Enemy Stats")]
     public float enemyHealth;
     [SerializeField] float currentHealth;
+    [SerializeField] bool isAlive;
     public float enemySpeed;
     public Transform target;
     [SerializeField] Vector2 moveDirection;
@@ -22,12 +23,20 @@ public class EnemyBehaviour : MonoBehaviour
     void Start()
     {
         currentHealth = enemyHealth;
+        isAlive = true;
+    }
+
+    public void takeDamage(float damage)
+    {
+        currentHealth -= damage;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(target){
+        // Movement
+        if(target && isAlive)
+        {
             moveDirection = (target.position - transform.position);
             if (moveDirection.x < -1.6f)
             {
@@ -44,10 +53,12 @@ public class EnemyBehaviour : MonoBehaviour
                 body.velocity = Vector2.zero;
             }
         }
-    }
 
-    void FixedUpdate()
-    {
-
+        //Health
+        if(currentHealth <= 0)
+        {
+            Debug.Log(transform.name + " died");
+            isAlive = false;
+        }
     }
 }
