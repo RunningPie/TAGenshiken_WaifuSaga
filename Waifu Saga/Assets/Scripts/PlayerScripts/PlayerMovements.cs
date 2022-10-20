@@ -6,6 +6,7 @@ public class PlayerMovements : MonoBehaviour
 {
     private Rigidbody2D body;
     private BoxCollider2D boxCollider;
+    public Camera mainCam;
 
     [Header("Basic Movements")]
     public float speed;
@@ -25,6 +26,8 @@ public class PlayerMovements : MonoBehaviour
     public float dashTime;
     public float dashCooldown;
     public float airTimeDivider;
+    public bool dashToMouse;
+    public Transform dashTarget;
     private Vector2 dashDirection;
     [SerializeField] private bool isDashing;
     [SerializeField] private bool canDash = true;
@@ -108,7 +111,14 @@ public class PlayerMovements : MonoBehaviour
             isDashing = true;
             canDash = false;
             dashReady = false;
-            dashDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
+            if (dashToMouse)
+            {
+                dashDirection = (dashTarget.position - transform.position).normalized;
+            }
+            else if (dashToMouse == false)
+            {
+                dashDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
+            }
             if (dashDirection == Vector2.zero) // If no input
             {
                 dashDirection = new Vector2(transform.localScale.x, 0f)/5f;
