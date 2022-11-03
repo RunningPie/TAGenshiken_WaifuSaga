@@ -44,12 +44,46 @@ public class PlayerMovements : MonoBehaviour
     private bool isWallJumping;
     
 
+    [Header("Level Loading")]
+    // public GameObject[] players;
+    public static PlayerMovements Instance;
+
     // Start is called before the first frame update
     void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
     }
+
+    void Start()
+    {
+        if (Instance != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        FindStartPos();
+
+    //     players = GameObject.FindGameObjectsWithTag("Player");
+
+    //     if (players.Length > 1)
+    //     {
+    //         Destroy(players[1]);
+    //     }
+    }
+
+    void FindStartPos()
+    {
+        transform.position = GameObject.FindWithTag("startPos").transform.position;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -57,11 +91,11 @@ public class PlayerMovements : MonoBehaviour
         horizontalMoveInput = Input.GetAxis("Horizontal");
         if (horizontalMoveInput > 0.01f)
         {
-            transform.localScale = new Vector2(5, 5);
+            transform.localScale = new Vector2(0.5f, 0.5f);
         }
         else if (horizontalMoveInput < -0.01f)
         {
-            transform.localScale = new Vector2(-5, 5);
+            transform.localScale = new Vector2(-0.5f, 0.5f);
         }
         body.velocity = new Vector2(horizontalMoveInput * speed, body.velocity.y);
 
