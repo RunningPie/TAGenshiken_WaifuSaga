@@ -294,7 +294,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -353,8 +353,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b80e2c22b9fb4d34ab78a544e5089b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCam: {fileID: 0}
   speed: 5
   jumpPower: 5
+  extraJumps: 0
+  jumpCounter: 0
+  groundCheck: {fileID: 0}
+  groundCheckRadius: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  isTouchingGround: 0
+  dashSpeed: 0
+  dashTime: 0
+  dashCooldown: 0
+  airTimeDivider: 0
+  dashToMouse: 0
+  dashTarget: {fileID: 0}
+  isDashing: 0
+  canDash: 1
+  dashReady: 1
+  wallCheck: {fileID: 0}
+  wallSlideSpeed: 0
+  isWallTouch: 0
+  isWallSlide: 0
+  wallJumpTime: 0
+  wallJumpPower: {x: 0, y: 0}
 --- !u!1 &1567308553
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,7 +443,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
