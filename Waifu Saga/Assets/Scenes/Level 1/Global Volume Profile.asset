@@ -18,22 +18,22 @@ MonoBehaviour:
     m_Value: 0.8
   intensity:
     m_OverrideState: 1
-    m_Value: 10.46
+    m_Value: 1.1
   scatter:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: -0
   clamp:
     m_OverrideState: 1
     m_Value: 65472
   tint:
     m_OverrideState: 1
-    m_Value: {r: 0.7924528, g: 0.6236927, b: 0.10217153, a: 1}
+    m_Value: {r: 0.3490566, g: 0.31908464, b: 0, a: 1}
   highQualityFiltering:
     m_OverrideState: 1
     m_Value: 1
   skipIterations:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   dirtTexture:
     m_OverrideState: 0
     m_Value: {fileID: 0}
