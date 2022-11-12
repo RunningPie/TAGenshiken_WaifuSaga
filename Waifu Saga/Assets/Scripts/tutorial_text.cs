@@ -9,24 +9,21 @@ public class tutorial_text : MonoBehaviour
     private float horizontalMoveInput;
     public float time;
     private float timeStore;
-    private int step;
 
     // Start is called before the first frame update
     void Start()
     {
         timeStore = time;
-        step = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(step);
-        if (step == 0)
+        if (CurrentUI.name == "Movement Tutorial" | CurrentUI.name == "NextLevel")
         {
             MovementTutorial();
         }
-        else if (step == 1)
+        else if (CurrentUI.name == "JumpTutorial")
         {
             JumpTutorial();
         }
@@ -45,14 +42,14 @@ public class tutorial_text : MonoBehaviour
             {
                 CurrentUI.SetActive(false); // Set current tutorial text to inactive
                 NextUI.SetActive(true);     // Set next tutorial text to active
-                step += 1;
             }
         }
     }
 
     public void JumpTutorial(){
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetKey(KeyCode.Space))
         {
+            Debug.Log("Space is pressed");
             if (time > 0)
             {
                 time -= Time.deltaTime;
@@ -61,8 +58,8 @@ public class tutorial_text : MonoBehaviour
             {
                 CurrentUI.SetActive(false); // Set current tutorial text to inactive
                 NextUI.SetActive(true);     // Set next tutorial text to active
-                step += 1;
             }
         }
     }
+
 }

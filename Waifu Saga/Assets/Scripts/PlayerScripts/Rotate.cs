@@ -23,11 +23,11 @@ public class Rotate : MonoBehaviour
         horizontalMoveInput = Input.GetAxis("Horizontal");
         if (horizontalMoveInput > 0.01f)
         {
-            transform.localScale = new Vector2(1, 1);
+            transform.localScale = new Vector2(1f, 1f);
         }
         else if (horizontalMoveInput < -0.01f)
         {
-            transform.localScale = new Vector2(-1, 1);
+            transform.localScale = new Vector2(-1f, 1f);
         }
     }
 }

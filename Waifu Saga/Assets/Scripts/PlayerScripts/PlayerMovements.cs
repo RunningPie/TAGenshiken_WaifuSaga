@@ -91,11 +91,11 @@ public class PlayerMovements : MonoBehaviour
         horizontalMoveInput = Input.GetAxis("Horizontal");
         if (horizontalMoveInput > 0.01f)
         {
-            transform.localScale = new Vector2(0.5f, 0.5f);
+            transform.localScale = new Vector2(1f, 1f);
         }
         else if (horizontalMoveInput < -0.01f)
         {
-            transform.localScale = new Vector2(-0.5f, 0.5f);
+            transform.localScale = new Vector2(-1f, 1f);
         }
         body.velocity = new Vector2(horizontalMoveInput * speed, body.velocity.y);
 

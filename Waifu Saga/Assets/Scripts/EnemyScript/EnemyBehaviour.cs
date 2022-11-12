@@ -11,7 +11,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] float currentHealth;
     [SerializeField] bool isAlive;
     public float enemySpeed;
-    public Transform target;
+    private Transform target;
     [SerializeField] Vector2 moveDirection;
 
     void Awake()
@@ -24,6 +24,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         currentHealth = enemyHealth;
         isAlive = true;
+        target = GameObject.FindWithTag("Player").transform;
     }
 
     public void takeDamage(float damage)
