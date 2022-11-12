@@ -6,6 +6,8 @@ public class EnemyBehaviour : MonoBehaviour
 {
     private Rigidbody2D body;
 
+    private Animator anim;
+
     [Header("Enemy Stats")]
     public float enemyHealth;
     [SerializeField] float currentHealth;
@@ -25,6 +27,7 @@ public class EnemyBehaviour : MonoBehaviour
         currentHealth = enemyHealth;
         isAlive = true;
         target = GameObject.FindWithTag("Player").transform;
+        anim = GetComponent<Animator>();
     }
 
     public void takeDamage(float damage)
@@ -59,7 +62,14 @@ public class EnemyBehaviour : MonoBehaviour
         if(currentHealth <= 0)
         {
             Debug.Log(transform.name + " died");
+            if (isAlive)
+            {
+                anim.SetTrigger("die");
+            }
             isAlive = false;
+
+            
+
         }
     }
 }

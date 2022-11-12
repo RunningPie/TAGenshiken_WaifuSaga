@@ -8,6 +8,8 @@ public class PlayerMovements : MonoBehaviour
     private BoxCollider2D boxCollider;
     public Camera mainCam;
 
+    private Animator anim;
+
     [Header("Basic Movements")]
     public float speed;
     public float jumpPower;
@@ -51,8 +53,10 @@ public class PlayerMovements : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        // Grab References
         body = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
+        anim = GetComponent<Animator>();
     }
 
     void Start()
@@ -98,8 +102,10 @@ public class PlayerMovements : MonoBehaviour
             transform.localScale = new Vector2(-1f, 1f);
         }
         body.velocity = new Vector2(horizontalMoveInput * speed, body.velocity.y);
+        //Animation
+        anim.SetBool("Run", horizontalMoveInput != 0);
 
-
+        
 
         //Jumping
         isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
